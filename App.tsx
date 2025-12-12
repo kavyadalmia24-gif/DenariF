@@ -7,6 +7,7 @@ import Quiz from './views/Quiz';
 import Learn from './views/Learn';
 import Advisor from './views/Advisor';
 import Market from './views/Market';
+import Leaderboard from './views/Leaderboard';
 import { ViewState, UserStats, Stock, NewsItem, PendingOrder, PortfolioItem } from './types';
 import { Menu } from 'lucide-react';
 import { INITIAL_STOCKS, generateMarketNews, calculateNextPrice } from './utils/marketData';
@@ -218,6 +219,8 @@ const App: React.FC = () => {
         return <Advisor />;
       case ViewState.MARKET:
         return <Market key="market-view-pro" userStats={userStats} updateStats={updateStats} stocks={stocks} newsFeed={newsFeed} />;
+      case ViewState.LEADERBOARD:
+        return <Leaderboard userStats={userStats} />;
       default:
         return <Dashboard onNavigate={setCurrentView} userStats={userStats} stocks={stocks} />;
     }

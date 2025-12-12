@@ -6,6 +6,7 @@ export enum ViewState {
   LEARN = 'LEARN',
   ADVISOR = 'ADVISOR',
   MARKET = 'MARKET',
+  LEADERBOARD = 'LEADERBOARD',
 }
 
 export interface PortfolioItem {

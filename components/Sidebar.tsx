@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, GraduationCap, BrainCircuit, Sparkles, PieChart, CandlestickChart, X, User } from 'lucide-react';
+import { LayoutDashboard, GraduationCap, BrainCircuit, Sparkles, PieChart, CandlestickChart, X, User, Trophy } from 'lucide-react';
 import { ViewState } from '../types';
 
 interface SidebarProps {
@@ -17,6 +17,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate, isOpen, setI
     { id: ViewState.MARKET, label: 'Market', icon: CandlestickChart },
     { id: ViewState.CALCULATORS, label: 'Simulators', icon: PieChart },
     { id: ViewState.QUIZ, label: 'Challenges', icon: BrainCircuit },
+    { id: ViewState.LEADERBOARD, label: 'Leaderboard', icon: Trophy },
     { id: ViewState.ADVISOR, label: 'AI Advisor', icon: Sparkles },
   ];
 
