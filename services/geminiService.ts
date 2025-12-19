@@ -1,19 +1,16 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { GeneratedLessonData } from "../types";
 
-const apiKey = process.env.API_KEY || '';
-
-// Initialize the client
-const ai = new GoogleGenAI({ apiKey });
-
+/**
+ * Get financial advice or explain concepts using Gemini AI.
+ */
 export const getFinancialAdvice = async (userMessage: string): Promise<string> => {
-  if (!apiKey) {
-    return "API Key is missing. Please configure the environment variable.";
-  }
+  // Always initialize with the correct API key from process.env.API_KEY
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: userMessage,
       config: {
         systemInstruction: `You are a helpful, knowledgeable, and conservative financial literacy assistant named FinBot. 
@@ -35,11 +32,11 @@ export const getFinancialAdvice = async (userMessage: string): Promise<string> =
   }
 };
 
+/**
+ * Generate structured lesson content including a quiz and suggested simulator.
+ */
 export const generateLessonContent = async (topic: string, moduleContext: string): Promise<GeneratedLessonData | null> => {
-  if (!apiKey) {
-    console.error("API Key Missing");
-    return null;
-  }
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
   try {
     const prompt = `
@@ -62,12 +59,10 @@ export const generateLessonContent = async (topic: string, moduleContext: string
         ],
         "simulator": "Type of simulator relevant to this lesson. Options: 'SIP', 'LUMPSUM', 'EMI', or null if none apply."
       }
-      
-      For 'simulator', only choose one if the lesson involves calculations like compound interest (LUMPSUM), regular investing (SIP), or loans (EMI). Otherwise set to null.
     `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -76,7 +71,11 @@ export const generateLessonContent = async (topic: string, moduleContext: string
           properties: {
             title: { type: Type.STRING },
             content: { type: Type.STRING },
-            simulator: { type: Type.STRING, enum: ["SIP", "LUMPSUM", "EMI", "null"], nullable: true },
+            simulator: { 
+              type: Type.STRING, 
+              enum: ["SIP", "LUMPSUM", "EMI", "null"], 
+              nullable: true 
+            },
             quiz: {
               type: Type.ARRAY,
               items: {
